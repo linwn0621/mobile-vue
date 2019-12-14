@@ -50,7 +50,9 @@ export default {
       userLogin(this.user)
         .then(res => {
           if (res.data.message === '登录成功') {
-            this.$router.push({ path: '/personal/{res.data.data.user.id}' })
+            // 登录成功将token存起来
+            localStorage.setItem('token', res.data.data.token)
+            this.$router.push({ path: `/personal/${res.data.data.user.id}` })
           } else {
             this.$toast.fail(res.data.message)
           }

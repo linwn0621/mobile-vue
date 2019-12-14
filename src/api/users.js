@@ -6,3 +6,10 @@ export const userLogin = (data) => {
     data
   })
 }
+export const userdata = (id) => {
+  return axios({
+    url: `/user/${id}`,
+    method: 'get'
+
+  })
+}
