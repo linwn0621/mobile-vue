@@ -7,8 +7,9 @@
             <div class="logo">
                 <span class="iconfont iconnew"></span>
                 </div><div class="inputs">
-                    <input  placeholder="请输入手机号" class="input">
-                    <input  placeholder="密码" class="input" type="password"></div>
+                   <inp type="text" :value="user.username" @input="getname" :rules=/^1\d{10}$/ msg_err="手机号不合法"></inp>
+                   <inp type="password" v-model="user.passname" @input="getword"></inp>
+                   </div>
                     <p class="tips">
     没有账号？
     <a href="#/register" class="">去注册</a>
@@ -21,21 +22,48 @@
 <script>
 // 引入按钮组件
 import btn from '@/components/mybutton'
+// 引入输入框组件
+import inp from '@/components/myinput'
+// 引入登录验证
+import { userLogin } from '@/api/users.js'
 export default {
   data () {
     return {
-      btnname: '点击登录'
+      btnname: '点击登录',
+      user: {
+        username: '111',
+        passname: '123'
+      }
+
     }
   },
 
   components: {
     //   注册按钮
-    btn
+    btn, inp
+
   },
   methods: {
     //   接收按钮组件的点击事件
     login (event) {
-      console.log(event)
+      userLogin(this.user)
+        .then(res => {
+          if (res.data.message === '登录成功') {
+            console.log('110')
+          } else {
+            this.$toast.fail(res.data.message)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+          this.$toast.fail('登录失败')
+        })
+    },
+    getname (data) {
+      this.user.username = data
+    },
+    getword (data) {
+      this.user.passname = data
     }
   }
 }
