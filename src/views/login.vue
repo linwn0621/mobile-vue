@@ -8,7 +8,7 @@
                 <span class="iconfont iconnew"></span>
                 </div><div class="inputs">
                    <inp type="text" :value="user.username" @input="getname" :rules=/^1\d{10}$/ msg_err="手机号不合法"></inp>
-                   <inp type="password" v-model="user.passname" @input="getword"></inp>
+                   <inp type="password" v-model="user.password" @input="getword"></inp>
                    </div>
                     <p class="tips">
     没有账号？
@@ -31,8 +31,8 @@ export default {
     return {
       btnname: '点击登录',
       user: {
-        username: '111',
-        passname: '123'
+        username: '',
+        password: ''
       }
 
     }
@@ -46,10 +46,11 @@ export default {
   methods: {
     //   接收按钮组件的点击事件
     login (event) {
+      console.log(this.user)
       userLogin(this.user)
         .then(res => {
           if (res.data.message === '登录成功') {
-            console.log('110')
+            this.$router.push({ path: '/personal/{res.data.data.user.id}' })
           } else {
             this.$toast.fail(res.data.message)
           }
@@ -63,7 +64,7 @@ export default {
       this.user.username = data
     },
     getword (data) {
-      this.user.passname = data
+      this.user.password = data
     }
   }
 }
