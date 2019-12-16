@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/views/login.vue'
 import Personal from '@/views/personal.vue'
+import Useredit from '@/views/useredit.vue'
 Vue.use(VueRouter)
 // 4. 创建路由对象，进行路由配置
 const router = new VueRouter({
@@ -20,7 +21,13 @@ const router = new VueRouter({
       name: 'personal',
       path: '/personal/:id',
       component: Personal
+    },
+    {
+      name: 'useredit',
+      path: '/useredit/:id',
+      component: Useredit
     }
+
   ]
 })
 // 添加导航守卫

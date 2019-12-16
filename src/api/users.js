@@ -13,3 +13,10 @@ export const userdata = (id) => {
 
   })
 }
+export const Update = (id, data) => {
+  return axios({
+    url: `/user_update/${id}`,
+    method: 'post',
+    data
+  })
+}

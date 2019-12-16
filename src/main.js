@@ -6,10 +6,12 @@ import '@/styles/reset.css'
 // 引入字体图标
 // import { Icon } from 'vant'
 // 全局引入提示框
-import { Toast, Icon } from 'vant'
+
+import { Toast, Icon, Uploader } from 'vant'
 
 Vue.use(Toast)
 Vue.use(Icon)
+Vue.use(Uploader)
 Vue.config.productionTip = false
 
 new Vue({
