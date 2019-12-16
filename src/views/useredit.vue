@@ -10,9 +10,23 @@
       <img alt :src="userdata.head_img" />
           <van-uploader :after-read="afterRead" />
     </div>
-<Mycell leftname="昵称" rightname="1"></Mycell>
-<Mycell leftname="密码" rightname="2"></Mycell>
-<Mycell leftname="性别" rightname="3"></Mycell>
+<Mycell leftname="昵称" :rightname="userdata.nickname" @click="nickshow=!nickshow"></Mycell>
+  <!-- 引入dialog框 -->
+  <van-dialog v-model="nickshow" title="昵称修改" show-cancel-button @confirm="uploadname">
+      <van-field
+
+    required
+
+    label="用户名"
+    right-icon="question-o"
+    placeholder="请输入用户名"
+:value="userdata.nickname"
+ref="nickname"
+  />
+    <!-- <van-field required  label="昵称" placeholder="请输入昵称" /> -->
+</van-dialog>
+<Mycell leftname="密码" :rightname="userdata.password"></Mycell>
+<Mycell leftname="性别" :rightname="userdata.gender"></Mycell>
   </div>
 </template>
 
@@ -32,7 +46,8 @@ export default {
   data () {
     return {
       id: '',
-      userdata: { head_img: '' }
+      userdata: { },
+      nickshow: false
     }
   },
   mounted () {
@@ -57,6 +72,19 @@ export default {
     erithead, Mycell
   },
   methods: {
+    // 点击确定修改昵称
+    async uploadname () {
+      console.log(this.$refs.nickname.$refs.input.value)
+      let nickname = this.$refs.nickname.$refs.input.value
+      let res3 = await Update(this.id, { nickname })
+      console.log(res3)
+      if (res3.data.message === '修改成功') {
+        this.userdata.nickname = nickname
+        this.$toast.success(res3.data.message)
+      } else {
+        this.$toast.fail(res3.data.message)
+      }
+    },
     async afterRead (file) {
       // 此时可以自行将文件上传至服务器
       // console.log(file)
@@ -111,10 +139,10 @@ export default {
 // 让元素居中
 /deep/.van-uploader{
 position: absolute;
-left:50%;
-top: 50%;
-transform: translate(-50%,0);
-opacity: 0;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0);
+    opacity: 0;
 }
 }
 </style>
