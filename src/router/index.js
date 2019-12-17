@@ -3,14 +3,15 @@ import VueRouter from 'vue-router'
 import Login from '@/views/login.vue'
 import Personal from '@/views/personal.vue'
 import Useredit from '@/views/useredit.vue'
+import Index from '@/views/index.vue'
 Vue.use(VueRouter)
 // 4. 创建路由对象，进行路由配置
 const router = new VueRouter({
   routes: [
     {
-      name: 'login',
+      name: 'index',
       path: '/',
-      component: Login
+      component: Index
     },
     {
       name: 'login',

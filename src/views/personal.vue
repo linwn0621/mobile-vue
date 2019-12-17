@@ -62,7 +62,8 @@ export default {
     },
     // 点击退出按钮
     out (event) {
-      console.log('点击了退出')
+      localStorage.removeItem('token')
+      this.$router.push({ name: 'login' })
     }
   }
 }
