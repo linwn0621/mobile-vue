@@ -7,7 +7,7 @@ import '@/styles/reset.css'
 // import { Icon } from 'vant'
 // 全局引入提示框
 
-import { Toast, Icon, Uploader, Dialog, Field, Tab, Tabs } from 'vant'
+import { Toast, Icon, Uploader, Dialog, Field, Tab, Tabs, List, PullRefresh } from 'vant'
 
 Vue.use(Toast)
 Vue.use(Icon)
@@ -16,6 +16,8 @@ Vue.use(Dialog)
 Vue.use(Field)
 Vue.use(Tab)
 Vue.use(Tabs)
+Vue.use(List)
+Vue.use(PullRefresh)
 Vue.config.productionTip = false
 
 new Vue({

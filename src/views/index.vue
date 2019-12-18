@@ -8,10 +8,27 @@
       <van-icon name="manager-o" class="icon" />
     </div>
 <van-tabs v-model="active" sticky swipeable>
+  <!-- 新闻栏目 -->
   <van-tab :title="value.name" v-for="value in catearr" :key=value.id >
 
+<!-- 下拉刷新 -->
+<van-pull-refresh v-model="value.isLoading" @refresh="onRefresh">
+
+<!-- 上拉刷新 -->
+<van-list
+  v-model="value.loading"
+  :finished="value.finished"
+  finished-text="没有更多了"
+  @load="onLoad"
+>
+
+ <!-- 新闻内容 -->
 <Mynews v-for="post in value.postlist" :key="post.id" :post="post" ></Mynews>
-      </van-tab>
+
+</van-list>
+
+</van-pull-refresh>
+  </van-tab>
 
 </van-tabs>
   </div>
@@ -30,7 +47,8 @@ export default {
     return {
       // 如果有登录就显示关注栏目数据否则显示头条页
       active: localStorage.getItem('token') ? 1 : 0,
-      catearr: []
+      catearr: [],
+      isLoading: false
     }
   },
 
@@ -44,10 +62,48 @@ export default {
           category: this.catearr[this.active].id
         }
       )
-      console.log(res1)
-      this.catearr[this.active].postlist = res1.data.data
-      console.log(this.catearr)
+      // console.log(res1.data.data)
+      this.catearr[this.active].postlist.push(...res1.data.data)
+
+      this.catearr[this.active].loading = false
+      if (res1.data.data.length < this.catearr[this.active].pageSize) {
+        this.catearr[this.active].finished = true
+      }
+    },
+    // 上拉事件
+    onLoad () {
+      // 异步更新数据
+      // console.log(this.catearr[this.active].loading)
+      this.catearr[this.active].pageIndex++
+
+      this.getnews()
+
+      // 加载状态结束
+      // this.catearr[this.active].loading = false
+
+      // // 数据全部加载完成
+      // if (this.list.length >= 40) {
+      //   this.finished = true;
+      // }
+    },
+    onRefresh () {
+      // setTimeout(() => {
+      //   this.$toast('刷新成功')
+      // }, 500)
+      // 下拉重置页码
+      this.catearr[this.active].pageIndex = 1
+
+      // 重置finished避免无法上拉加载更多
+      this.catearr[this.active].finished = false
+
+      // 重置页面数据
+      this.catearr[this.active].postlist.length = 0
+      // 刷新完成改变isLoading的值
+      this.catearr[this.active].isLoading = false
+      // 加载页面数据
+      this.getnews()
     }
+
   },
 
   async mounted () {
@@ -67,7 +123,10 @@ export default {
         // 页码
         pageIndex: 1,
         // 每页新闻数量
-        pageSize: 5
+        pageSize: 5,
+        loading: false,
+        finished: false,
+        isLoading: false
       }
     })
 
