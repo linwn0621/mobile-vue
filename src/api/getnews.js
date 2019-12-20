@@ -17,3 +17,9 @@ export const quguan = (id) => {
     url: `/user_unfollow/${id}`
   })
 }
+// 点赞
+export const dianzan = (id) => {
+  return axios({
+    url: `/post_like/${id}`
+  })
+}

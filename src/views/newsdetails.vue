@@ -10,14 +10,14 @@
     <div class="detail">
       <div class="title">{{news.title}}</div>
       <div class="desc">
-        <span>{{news.user.nickname}}</span> &nbsp;&nbsp;
+        <span>{{news.user && news.user.nickname}}</span> &nbsp;&nbsp;
         <span>2019-9-9</span>
       </div>
       <div class="content" v-html="news.content" v-if="news.type===1"></div>
         <video v-if="news.type===2" :src="news.content" controls :poster="news.cover[0].url"></video>
 
       <div class="opt">
-        <span class="like">
+        <span class="like" :class="{dianzan:news.has_like}" @click="dz">
           <van-icon name="good-job-o" />
           {{news.like_length}}
         </span>
@@ -47,7 +47,7 @@
 
 <script>
 // 引入获取文章详情方法
-import { getnews, guanzhu, quguan } from '@/api/getnews'
+import { getnews, guanzhu, quguan, dianzan } from '@/api/getnews'
 export default {
   data () {
     return {
@@ -75,6 +75,17 @@ export default {
       this.news.has_follow = !this.news.has_follow
       console.log(this.news.has_follow)
       this.$toast.success(res.data.message)
+    },
+    // 点赞
+    async dz () {
+      this.news.has_like = !this.news.has_like
+      let res = await dianzan(this.news.id)
+      if (res.data.message === '取消成功') {
+        this.news.like_length--
+      } else {
+        this.news.like_length++
+      }
+      this.$toast.success(res.data.message)
     }
 
   }
@@ -82,6 +93,9 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.dianzan{
+  background: red;
+}
 video {
   width: 100%;
   margin-bottom: 10px;
