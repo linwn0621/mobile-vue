@@ -3,9 +3,9 @@
     <div class="header">
       <span class="iconfont iconnew icon"></span>
       <div class="center">
-        <van-icon name="search" />&nbsp;&nbsp;&nbsp;搜索商品
+        <van-icon name="search" />&nbsp;&nbsp;&nbsp;搜索新闻
       </div>
-      <van-icon name="manager-o" class="icon" />
+      <van-icon name="manager-o" class="icon" @click="jump" />
     </div>
 <van-tabs v-model="active" sticky swipeable>
   <!-- 新闻栏目 -->
@@ -35,7 +35,9 @@
 </template>
 
 <script>
+// 获取栏目列表
 import { getCateList } from '@/api/cate.js'
+// 获取新闻内容
 import { Getnewsdata } from '@/api/article'
 // 引入新闻块
 import Mynews from '@/components/mynews'
@@ -102,6 +104,9 @@ export default {
       this.catearr[this.active].isLoading = false
       // 加载页面数据
       this.getnews()
+    },
+    jump () {
+      this.$router.push({ path: `/personal/${window.localStorage.getItem('myid')}` })
     }
 
   },
@@ -111,7 +116,7 @@ export default {
     let res = await getCateList()
     // console.log(res)
     this.catearr = res.data.data
-    // console.log(this.catearr)
+
     // console.log(this.catearr[this.active])
     // 映射新的数组添加3个属性值
     this.catearr = this.catearr.map(value => {
@@ -132,6 +137,7 @@ export default {
 
     // 获取新闻数据
     this.getnews()
+    console.log(11, this.catearr)
   },
   // 监听栏目值active变化根据不同栏目填内容
   watch: {

@@ -5,6 +5,7 @@
   <van-icon name="arrow-left" slot='left' @click="$router.back()" />
 
     <span slot='right' @click="$router.back()">退出</span>
+
 </erithead>
  <div class="head">
       <img alt :src="userdata.head_img" />

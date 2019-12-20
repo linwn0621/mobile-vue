@@ -18,6 +18,7 @@
     <Mycell leftname="我的跟帖" rightname="跟帖/回复" @click="bj"></Mycell>
     <Mycell leftname="我的收藏" rightname="文章/视频" @click="bj"></Mycell>
     <Mycell leftname="设置"  @click="bj"></Mycell>
+    <Mycell leftname="返回首页"  @click="jump" class="backindex"></Mycell>
 <btn myname="退出" class="btnstyle" @click="out" ></btn>
   </div>
 </template>
@@ -60,6 +61,9 @@ export default {
     bj (event) {
       console.log('点击了编辑单元格')
     },
+    jump () {
+      this.$router.push({ name: 'index' })
+    },
     // 点击退出按钮
     out (event) {
       localStorage.removeItem('token')
@@ -69,9 +73,13 @@ export default {
 }
 </script>
 <style lang='less' scoped>
+/deep/.backindex{
+ justify-content: center;
+
+}
 /deep/.btnstyle{
 background-color: green;
-margin: 10px auto;
+margin: 50px auto;
 }
 .personal{
     width: 100vw;
