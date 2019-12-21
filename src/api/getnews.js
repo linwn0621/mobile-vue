@@ -23,3 +23,9 @@ export const dianzan = (id) => {
     url: `/post_like/${id}`
   })
 }
+// 收藏
+export const shoucang = (id) => {
+  return axios({
+    url: `/post_star/${id}`
+  })
+}

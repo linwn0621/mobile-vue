@@ -1,5 +1,6 @@
 <template>
   <div class="articaldetail">
+    <!-- 头部 -->
     <div class="header">
       <div class="left">
         <van-icon name="arrow-left back" @click="$router.back()" />
@@ -7,6 +8,7 @@
       </div>
       <span @click="follow" :class="{active:news.has_follow}">{{news.has_follow?"已關注":"關注"}}</span>
     </div>
+    <!-- 内容 -->
     <div class="detail">
       <div class="title">{{news.title}}</div>
       <div class="desc">
@@ -42,13 +44,20 @@
       </div>
       <div class="more">更多跟帖</div>
     </div>
+    <!-- 底部 -->
+    <newsfloor :newsdata=news></newsfloor>
   </div>
 </template>
 
 <script>
 // 引入获取文章详情方法
 import { getnews, guanzhu, quguan, dianzan } from '@/api/getnews'
+// 引入底部组件
+import newsfloor from '@/components/newsfloor'
 export default {
+  components: {
+    newsfloor
+  },
   data () {
     return {
       news: []
@@ -93,6 +102,9 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.articaldetail{
+  padding-bottom: 50px;
+}
 .dianzan{
   background: red;
 }
